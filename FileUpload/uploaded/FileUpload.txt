@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Upload File and JSON</title>
+</head>
+<body>
+  <input type="file" id="fileInput" />
+  <button onclick="upload()">Upload</button>
+
+  <script>
+    async function upload() {
+      const fileInput = document.getElementById('fileInput');
+      const file = fileInput.files[0];
+
+      if (!file) {
+        alert("Please select a file first.");
+        return;
+      }
+
+      const jsonData = {
+        name: "Danish",
+        age: 30,
+        role: "Developer"
+      };
+
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("data", new Blob([JSON.stringify(jsonData)], { type: "application/json" }));
+
+      try {
+        const response = await fetch("http://localhost:8080/files/upload", {
+          method: "POST",
+          body: formData
+        });
+
+        const result = await response.text();
+        console.log("Server response:", result);
+      } catch (error) {
+        console.error("Error uploading:", error);
+      }
+    }
+  </script>
+</body>
+</html>

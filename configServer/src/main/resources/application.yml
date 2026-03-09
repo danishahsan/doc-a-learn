@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: ConfigServerApplication
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/ksharpit-pixel/config-repo
+          search-paths: '{application}'
+#          search-paths: #'{application}'
+#            - fileupload/
+#            - instafide/
+          default-label: main
+          force-pull: true
+          clone-on-start: true
+
+logging:
+  level:
+    org.springframework.cloud.config: DEBUG
+
+server:
+  port: 8888
+  tomcat:
+    connection-timeout: 2s
+    keep-alive-timeout: 15s
